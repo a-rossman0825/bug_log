@@ -9,7 +9,8 @@ export class BugsController extends BaseController {
     this.router
     .use(Auth0Provider.getAuthorizedUserInfo)
     .post('', this.createBug)
-    .get('', this.getAllBugs);
+    .get('', this.getAllBugs)
+    .get('/:bugId', this.getBugById)
   }
 
 
@@ -29,6 +30,7 @@ export class BugsController extends BaseController {
       next(error);
     }
   }
+
 /**
  * @param {import ("express").Request } req
  * @param {import("express").Response } res
@@ -40,6 +42,21 @@ export class BugsController extends BaseController {
       res.send(bugs);
     } catch (error) {
       next(error)
+    }
+  }
+
+/**
+ * @param {import ("express").Request } req
+ * @param {import("express").Response } res
+ * @param {import("express").NextFunction} next
+ */
+  async getBugById(req, res, next) {
+    try {
+      const bugId = req.params.bugId;
+      const bug = await bugsService.getBugById(bugId);
+      res.send(bug);
+    } catch (error) {
+      next(error);
     }
   }
 

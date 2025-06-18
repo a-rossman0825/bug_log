@@ -8,6 +8,11 @@ class BugsService {
     return bug;
   }
 
+  async getAllBugs() {
+    const bugs = await dbContext.Bugs.find();
+    return bugs;
+  }
+
 }
 
 export const bugsService = new BugsService();

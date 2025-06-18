@@ -11,6 +11,7 @@ export class BugsController extends BaseController {
     .post('', this.createBug)
     .get('', this.getAllBugs)
     .get('/:bugId', this.getBugById)
+    .put('/:bugId', this.updateBug);
   }
 
 
@@ -60,5 +61,16 @@ export class BugsController extends BaseController {
     }
   }
 
+  async updateBug(req, res, next) {
+    try {
+      const bugId = req.params.bugId;
+      const updateData = req.body;
+      const userInfo = req.userInfo;
+      const bug = await bugsService.updateBug(bugId, updateData, userInfo);
+      res.send(bug);
+    } catch (error) {
+      next(error)
+    }
+  }
 
 }

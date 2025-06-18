@@ -3,6 +3,15 @@ import { BadRequest } from "../utils/Errors.js";
 
 
 class BugsService {
+  async updateBug(bugId, updateData, userInfo) {
+    const bugToUpdate = await this.getBugById(bugId);
+
+    bugToUpdate.title = updateData.title ?? bugToUpdate.title;
+    bugToUpdate.description = updateData.description ?? bugToUpdate.description;
+
+    await bugToUpdate.save();
+    return bugToUpdate;
+  }
 
   async getBugById(bugId) {
     const bug = await dbContext.Bugs.findById(bugId).populate('creator', 'name picture');
@@ -22,6 +31,7 @@ class BugsService {
     return bugs;
   }
   
+
 
 }
 
